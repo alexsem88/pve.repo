@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # pct.sh
-# Скрипт работы с контейнерами по всему кластеру.
+# Скрипт работы с контейнерами по всему кластеру ProxMox
 # Автор: Семененко А.Г.
 
 set -o pipefail
@@ -21,7 +21,6 @@ listpct | column -t | sort -k1 -n | less
 
 -e)
 # Проверяем существует ли контейнер
-#pvesh get /cluster/resources/ -type vm | jq '.[] | select(.type == "lxc") | .node, .vmid' | tr -d \" | awk 'NR%2{printf "%s ",$0;next;}1' | grep " $1$" | awk '{print $1}'
 listpct | grep "$2 " | awk '{print $3}'
 if [[ $? -ne 0 ]]
 then
@@ -30,7 +29,6 @@ then
 fi
 
 # Подключимся к контейнеру
-#node=`pvesh get /cluster/resources/ -type vm | jq '.[] | select(.type == "lxc") | .node, .vmid' | tr -d \" | awk 'NR%2{printf "%s ",$0;next;}1' | grep " $2$" | awk '{print $1}'`
 node=`listpct | grep "$2 " | awk '{print $3}'`
 ssh $node -t "pct enter $2"
 ;;
