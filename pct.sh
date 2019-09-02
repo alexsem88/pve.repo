@@ -25,7 +25,7 @@ listpct | column -t | sort -k1 -n | less
 
 -e)
 # Проверяем существует ли контейнер
-listpct | grep "$2 " | awk '{print $3}'
+listpct | grep "^$2 " | awk '{print $3}'
 if [[ $? -ne 0 ]]
 then
    echo "Error: LXC $2 does not exist"
@@ -33,7 +33,7 @@ then
 fi
 
 # Подключимся к контейнеру
-node=`listpct | grep "$2 " | awk '{print $3}'`
+node=`listpct | grep "^$2 " | awk '{print $3}'`
 ssh $node -t "pct enter $2"
 ;;
 
